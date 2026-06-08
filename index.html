@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Report · Tele Sales — T5/2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --blue: #1a56db; --blue-light: #e8f0fe; --blue-mid: #3b74e7;
+  --green: #0e9f6e; --green-light: #def7ec;
+  --red: #e02424; --red-light: #fde8e8;
+  --orange: #ff5a1f; --orange-light: #feecdc;
+  --purple: #7e3af2; --purple-light: #edebfe;
+  --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
+  --gray-300: #d1d5db; --gray-500: #6b7280; --gray-700: #374151; --gray-900: #111827;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f8fafc; color: var(--gray-900); font-size: 13px; }
+
+/* ── Page Header ── */
+.page-header {
+  background: #ffffff;
+  border-bottom: 1px solid var(--gray-200);
+  padding: 18px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.page-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -.3px; color: var(--gray-900); }
+.page-header p { font-size: 11.5px; color: var(--gray-500); margin-top: 3px; }
+.badge { background: transparent; border: 1.5px solid var(--blue);
+  color: var(--blue); padding: 5px 14px; border-radius: 20px; font-size: 11.5px; font-weight: 700; }
+
+/* ── Section nav ── */
+.sec-nav {
+  background: white; box-shadow: 0 1px 0 var(--gray-200);
+  padding: 8px 28px; position: sticky; top: 0; z-index: 100;
+  display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; align-items: center;
+}
+.sec-nav::-webkit-scrollbar { display: none; }
+.sec-link {
+  padding: 6px 14px; font-size: 11.5px; font-weight: 600; white-space: nowrap;
+  color: var(--gray-500); text-decoration: none; border-radius: 20px;
+  transition: background .15s, color .15s;
+}
+.sec-link:hover { background: var(--gray-100); color: var(--gray-700); }
+.sec-link.active { background: var(--blue); color: white; }
+
+/* ── Page content ── */
+.page-body { max-width: 1400px; margin: 0 auto; padding: 28px 32px; }
+
+/* ── Section wrapper ── */
+.section { margin-bottom: 40px; scroll-margin-top: 56px; }
+.section-title {
+  font-size: 13px; font-weight: 700;
+  color: var(--gray-700); margin-bottom: 16px;
+  padding-left: 12px; border-left: 3px solid var(--blue);
+  display: flex; align-items: center; gap: 10px; line-height: 1.4;
+}
+.section-title .sec-num {
+  background: var(--blue-light); color: var(--blue); padding: 2px 7px;
+  border-radius: 6px; font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+
+/* ── KPI Cards ── */
+.kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 20px; }
+.kpi-grid.cols-3 { grid-template-columns: repeat(3,1fr); }
+.kpi-grid.cols-2 { grid-template-columns: repeat(2,1fr); }
+.kpi-card {
+  background: white; border-radius: 10px; padding: 16px 18px;
+  border: 1px solid var(--gray-200);
+}
+.kpi-card .kc-value-sm { font-size: 20px; }
+.kpi-card .kc-label { font-size: 11px; color: var(--gray-500); font-weight: 500; margin-bottom: 8px; }
+.kpi-card .kc-value { font-size: 26px; font-weight: 800; color: var(--gray-900); line-height: 1; }
+.kpi-card .kc-sub { font-size: 11px; margin-top: 6px; font-weight: 500; color: var(--gray-500); }
+.kpi-card .kc-sub.up { color: var(--green); }
+.kpi-card .kc-sub.down { color: var(--red); }
+.kpi-card .kc-val-green { color: #111827; }
+.kpi-card .kc-val-red   { color: #111827; }
+.kpi-card .kc-val-blue  { color: #111827; }
+
+/* ── Panel ── */
+.panel {
+  background: white; border-radius: 10px; padding: 20px;
+  border: 1px solid var(--gray-200);
+}
+.panel-title {
+  font-size: 12px; font-weight: 700; color: var(--blue); margin-bottom: 14px;
+  padding-left: 10px; border-left: 2px solid var(--blue);
+}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+
+/* ── Tables ── */
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+thead th {
+  background: var(--gray-50); padding: 9px 12px; text-align: right;
+  font-weight: 700; color: var(--gray-700); border-bottom: 2px solid var(--gray-200); white-space: nowrap;
+}
+thead th:first-child { text-align: left; }
+tbody td { padding: 8px 12px; border-bottom: 1px solid var(--gray-100); text-align: right; white-space: nowrap; }
+tbody td:first-child { text-align: left; font-weight: 600; }
+tbody tr:hover { background: var(--gray-50); }
+tbody tr.total-row td { font-weight: 700; background: var(--blue-light); border-top: 2px solid var(--gray-200); }
+tbody tr:last-child td { border-bottom: none; }
+
+/* ── Agent table ── */
+.agent-table th, .agent-table td { padding: 7px 10px; font-size: 11.5px; }
+.agent-table thead th.sortable { cursor: pointer; user-select: none; white-space: nowrap; }
+.agent-table thead th.sortable:hover { background: var(--blue-light); }
+.agent-table thead th.sort-asc::after  { content: ' ▲'; font-size: 9px; color: var(--blue); }
+.agent-table thead th.sort-desc::after { content: ' ▼'; font-size: 9px; color: var(--blue); }
+.sort-bar { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; flex-wrap: wrap; }
+.sort-bar span { font-size: 11px; color: var(--gray-500); }
+.sort-btn { font-size: 11px; padding: 3px 10px; border-radius: 14px;
+  border: 1px solid var(--gray-300); background: white; cursor: pointer; color: var(--gray-700); }
+.sort-btn:hover, .sort-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+.rank-badge {
+  display: inline-block; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--gray-200); color: var(--gray-700); font-size: 10px;
+  font-weight: 700; text-align: center; line-height: 20px; margin-right: 4px;
+}
+.rank-1 { background: #fbbf24; color: white; }
+.rank-2 { background: var(--gray-300); color: var(--gray-700); }
+.rank-3 { background: #d97706; color: white; }
+
+/* ── Progress bars ── */
+.prog-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; }
+.prog-name { width: 240px; flex-shrink: 0; font-size: 11.5px; color: var(--gray-700); }
+.prog-bar { flex: 1; height: 7px; background: var(--gray-200); border-radius: 4px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 4px; background: var(--blue); }
+.rp-gray .prog-fill { background: var(--gray-300); }
+.txt-red { color: var(--red); }
+.txt-green { color: var(--green); }
+.prog-count { font-size: 11px; font-weight: 700; min-width: 36px; text-align: right; color: var(--gray-700); }
+.prog-pct { font-size: 10px; color: var(--gray-500); min-width: 32px; text-align: right; }
+
+/* ── Call result panels ── */
+.result-panel {
+  border-radius: 10px; padding: 14px 16px; margin-bottom: 14px;
+}
+.result-panel .rp-header {
+  font-size: 11px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+  letter-spacing: .04em;
+}
+.rp-blue  { background: white; border: 1px solid var(--gray-200); border-left: 3px solid var(--blue); }
+.rp-blue  .rp-header { color: var(--blue); }
+.rp-red   { background: white; border: 1px solid var(--gray-200); border-left: 3px solid var(--red); }
+.rp-red   .rp-header { color: var(--red); }
+.rp-green { background: white; border: 1px solid var(--gray-200); border-left: 3px solid var(--green); }
+.rp-green .rp-header { color: var(--green); }
+.rp-gray  { background: white; border: 1px solid var(--gray-200); border-left: 3px solid var(--gray-300); }
+.rp-gray  .rp-header { color: var(--gray-500); }
+
+/* ── Cohort table ── */
+.cohort-wrap { overflow-x: auto; }
+.cohort-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.cohort-table th {
+  background: var(--gray-50); padding: 7px 10px; text-align: center;
+  font-weight: 700; color: var(--gray-700); border-bottom: 2px solid var(--gray-200);
+  white-space: nowrap;
+}
+.cohort-table th:first-child { text-align: left; min-width: 80px; }
+.cohort-table td { padding: 0; border: 1px solid white; }
+.cohort-table td.row-label {
+  padding: 6px 10px; text-align: left; background: var(--gray-50);
+  font-weight: 600; color: var(--gray-700); border: 1px solid var(--gray-200);
+}
+.cohort-cell {
+  padding: 5px 8px; font-weight: 600; min-width: 44px; min-height: 36px;
+  border-radius: 2px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.cohort-cell.empty { background: var(--gray-100); color: var(--gray-300); }
+/* Blue scale */
+.cc-b0 { background: #1e3a8a; color: white; }
+.cc-b1 { background: #1d4ed8; color: white; }
+.cc-b2 { background: #3b82f6; color: white; }
+.cc-b3 { background: #60a5fa; color: white; }
+.cc-b4 { background: #93c5fd; color: #1e3a8a; }
+.cc-b5 { background: #bfdbfe; color: #1e40af; }
+/* Green scale */
+.cc-g0 { background: #064e3b; color: white; }
+.cc-g1 { background: #065f46; color: white; }
+.cc-g2 { background: #059669; color: white; }
+.cc-g3 { background: #34d399; color: #064e3b; }
+.cc-g4 { background: #6ee7b7; color: #065f46; }
+.cc-g5 { background: #a7f3d0; color: #065f46; }
+
+/* ── Summary comparison ── */
+.compare-card {
+  background: white; border-radius: 10px; border: 1px solid var(--gray-200); overflow: hidden;
+}
+.compare-card .cc-header {
+  background: var(--blue-light); padding: 10px 16px;
+  font-size: 11.5px; font-weight: 700; color: #1e40af;
+  border-bottom: 1px solid #bfdbfe; display: flex; align-items: center; gap: 6px;
+}
+.compare-card .cc-body { padding: 12px 16px; }
+.compare-card .cc-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0; border-bottom: 1px solid var(--gray-100);
+}
+.compare-card .cc-row:last-child { border-bottom: none; }
+.compare-card .cc-row-label { font-size: 12px; color: var(--gray-500); }
+.compare-card .cc-row-val { font-size: 14px; font-weight: 800; color: var(--gray-900); }
+
+/* ── Chip ── */
+.chip { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 10.5px; font-weight: 700; }
+.chip-blue { background: var(--blue-light); color: var(--blue); }
+
+/* ── Speed Metrics Table (S03) ── */
+.spd-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.spd-tbl th {
+  background: var(--gray-50); color: var(--gray-700); font-weight: 700; font-size: 11px;
+  padding: 10px 16px; text-align: center; border-bottom: 2px solid var(--gray-200); white-space: nowrap;
+}
+.spd-tbl th:first-child { text-align: left; min-width: 200px; }
+.spd-tbl tbody tr:not(:last-child) td { border-bottom: 1px solid var(--gray-100); }
+.spd-tbl tbody td { padding: 18px 20px; vertical-align: middle; background: white; }
+.spd-tbl tbody td:first-child { border-right: 1px solid var(--gray-100); }
+.spd-tbl tbody tr:nth-child(even) td { background: var(--gray-50); }
+.spd-tbl tbody tr:hover td { background: var(--blue-light); }
+.spd-metric-name { font-size: 13px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+.spd-metric-sub { font-size: 10.5px; color: var(--gray-500); }
+.spd-col-center { text-align: center; }
+.spd-team-val { font-size: 24px; font-weight: 800; color: var(--gray-900); margin-bottom: 5px; }
+.spd-team-sub { font-size: 10.5px; color: var(--gray-500); line-height: 1.6; }
+.spd-person-val { font-size: 24px; font-weight: 800; margin-bottom: 3px; }
+.spd-person-val.fast { color: var(--green); }
+.spd-person-val.slow { color: var(--red); }
+.spd-person-sub { font-size: 10.5px; color: var(--gray-500); margin-bottom: 3px; }
+.spd-person-name { font-size: 11px; color: var(--gray-700); margin-bottom: 7px; }
+.spd-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+.spd-badge.fast { background: var(--green-light); color: var(--green); }
+.spd-badge.slow { background: var(--red-light); color: var(--red); }
+
+/* ── Report Panel S01 (light) ── */
+.dark-report-panel {
+  background: white; border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--gray-200);
+}
+.dark-report-title {
+  background: white; color: var(--blue); padding: 13px 20px 13px 22px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0;
+  border-bottom: 1px solid var(--gray-200); border-left: 3px solid var(--blue);
+}
+.dark-report-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.dark-report-tbl th {
+  background: var(--gray-50); color: var(--gray-700); font-weight: 700; font-size: 11px;
+  padding: 9px 12px; text-align: right; border-bottom: 2px solid var(--gray-200); white-space: nowrap;
+}
+.dark-report-tbl th.drp-rowlabel { text-align: left; min-width: 160px; }
+.dark-report-tbl th.drp-group {
+  background: var(--blue-light); color: var(--blue);
+  text-align: center; font-size: 11.5px;
+  border-bottom: 2px solid #bfdbfe;
+}
+.dark-report-tbl th.drp-mkt-subtotal { background: #dbeafe; color: var(--blue); font-weight: 700; border-left: 2px solid #93c5fd; }
+.dark-report-tbl td.drp-mkt-total { color: var(--blue); font-weight: 700; border-left: 2px solid #dbeafe; }
+.dark-report-tbl th.drp-total-head { background: var(--blue-light); color: var(--blue); font-weight: 700; min-width: 160px; border-left: 2px solid #bfdbfe; }
+.dark-report-tbl tbody tr { background: white; }
+.dark-report-tbl tbody tr:nth-child(even) { background: var(--gray-50); }
+.dark-report-tbl tbody tr:hover { background: var(--blue-light); }
+.dark-report-tbl tbody td {
+  padding: 8px 12px; border-bottom: 1px solid var(--gray-100);
+  text-align: right; color: var(--gray-700); white-space: nowrap;
+}
+.dark-report-tbl tbody td:first-child { text-align: left; font-weight: 600; color: var(--gray-900); }
+.dark-report-tbl tbody td.drp-total { color: var(--blue); font-weight: 700; border-left: 2px solid #dbeafe; }
+.dark-report-tbl tbody td.drp-red { color: var(--red); }
+.dark-report-tbl tbody td.drp-green { color: var(--green); }
+.dark-report-tbl tbody tr:last-child td { border-bottom: none; }
+.dark-report-tbl sup { font-size: 8px; vertical-align: super; opacity: .65; }
+.dark-report-note {
+  font-size: 10.5px; color: var(--gray-500); padding: 10px 20px;
+  border-top: 1px solid var(--gray-100);
+}
+
+/* ── Cohort year separator ── */
+.cohort-year-sep .year-sep-cell {
+  background: var(--blue-light); color: var(--blue);
+  font-size: 10px; font-weight: 700; text-align: center;
+  padding: 5px 8px; letter-spacing: .08em;
+  border-top: 2px solid var(--blue); border-bottom: 1px solid #bfdbfe;
+}
+.cohort-year-sep-green .year-sep-cell {
+  background: var(--green-light); color: #065f46;
+  font-size: 10px; font-weight: 700; text-align: center;
+  padding: 5px 8px; letter-spacing: .08em;
+  border-top: 2px solid var(--green); border-bottom: 1px solid #a7f3d0;
+}
+
+/* ── Revenue cohort 2-line cell ── */
+.cc-rev-val { display: block; font-size: 10.5px; font-weight: 700; line-height: 1.3; }
+.cc-rev-pct { display: block; font-size: 9px; opacity: .82; line-height: 1.2; }
+
+/* ── Tab navigation (S06) ── */
+.tab-nav {
+  display: flex; gap: 0; margin-bottom: 20px;
+  border-bottom: 2px solid var(--gray-200);
+}
+.tab-btn {
+  padding: 9px 20px; font-size: 13px; font-weight: 500;
+  border: none; background: none; cursor: pointer; color: var(--gray-500);
+  border-bottom: 2px solid transparent; margin-bottom: -2px;
+  transition: color .15s, border-color .15s; white-space: nowrap;
+}
+.tab-btn:hover { color: var(--gray-700); }
+.tab-btn.active { color: var(--blue); font-weight: 700; border-bottom-color: var(--blue); }
+.tab-panel.hidden { display: none; }
+
+/* ── Heatmap (S06 time tracking) ── */
+.heatmap-wrap { overflow-x: auto; margin-bottom: 10px; }
+.heatmap-tbl { border-collapse: collapse; font-size: 10.5px; white-space: nowrap; }
+.heatmap-tbl th {
+  background: var(--gray-50); padding: 5px 4px; text-align: center;
+  font-weight: 600; color: var(--gray-500); border-bottom: 1px solid var(--gray-200);
+  min-width: 34px;
+}
+.heatmap-tbl th.hm-row-label { text-align: left; min-width: 80px; padding: 5px 10px; }
+.heatmap-tbl td { padding: 2px; }
+.heatmap-tbl td.hm-row-label {
+  padding: 4px 10px; background: var(--gray-50);
+  font-weight: 600; color: var(--gray-700);
+  border-right: 1px solid var(--gray-200); white-space: nowrap;
+}
+.hm-cell {
+  width: 34px; height: 26px; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; border-radius: 3px;
+}
+.hm-0 { background: var(--gray-100); }
+.hm-1 { background: #dbeafe; color: #1e40af; }
+.hm-2 { background: #93c5fd; color: #1e3a8a; }
+.hm-3 { background: #3b82f6; color: white; }
+.hm-4 { background: #1e3a8a; color: white; }
+.hm-legend { display: flex; gap: 14px; margin-top: 10px; align-items: center; }
+.hm-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--gray-500); }
+.hm-legend-swatch { width: 14px; height: 14px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── Sub-section label ── */
+.subsec-label {
+  font-size: 11px; font-weight: 700; color: var(--gray-500);
+  text-transform: uppercase; letter-spacing: .06em;
+  margin-bottom: 12px; margin-top: 4px;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { height: 5px; width: 5px; }
+::-webkit-scrollbar-track { background: var(--gray-100); }
+::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ══ PAGE HEADER ══ -->
+<div class="page-header">
+  <div>
+    <h1>Page Report · Tele Sales</h1>
+    <p>Tổng hợp kết quả kinh doanh & vận hành — Data từ ClickHouse DW Ocany</p>
+  </div>
+  <div style="display:flex; gap:12px; align-items:center;">
+    <div class="badge">Tháng 05 / 2026</div>
+    <div style="font-size:11px; color:var(--gray-500);">Cập nhật: 06/06/2026</div>
+  </div>
+</div>
+
+<!-- ══ SECTION NAV ══ -->
+<div class="sec-nav">
+  <a class="sec-link" href="#s1">01 Chi tiết KH mới</a>
+  <a class="sec-link" href="#s2">02 KH cũ vs KH mới</a>
+  <a class="sec-link" href="#s3">03 Speed Metrics</a>
+  <a class="sec-link" href="#s4">04 KD từng NV</a>
+  <a class="sec-link" href="#s5">05 VH từng NV</a>
+  <a class="sec-link" href="#s6">06 Xử lý công việc</a>
+  <a class="sec-link" href="#s7">07 Cohort số KH</a>
+  <a class="sec-link" href="#s8">08 Cohort doanh số</a>
+  <a class="sec-link" href="#s9">09 ForeCast</a>
+</div>
+
+<div class="page-body">
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 1 — CHI TIẾT KẾT QUẢ KH MỚI
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s1">
+  <div class="section-title">
+    <span class="sec-num">01</span>
+    Chi tiết kết quả KH mới — T5/2026
+  </div>
+
+  <div class="dark-report-panel">
+    <div class="tbl-wrap">
+      <table class="dark-report-tbl">
+        <thead>
+          <tr>
+            <th rowspan="2" class="drp-rowlabel">Chỉ số</th>
+            <th colspan="7" class="drp-group">Marketing</th>
+            <th rowspan="2">Referral</th>
+            <th rowspan="2" class="drp-total-head">Tổng "MKT + Referral"</th>
+          </tr>
+          <tr>
+            <th>Ads</th><th>SEO</th><th>Social</th><th>Event</th><th>Tools</th><th>Khác</th><th class="drp-mkt-subtotal">Tổng MKT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Leads (T5)</td><td>1,916</td><td>—</td><td>287</td><td>—</td><td>2,047</td><td>56</td><td class="drp-mkt-total">4,306</td><td>25</td><td class="drp-total">4,331</td></tr>
+          <tr><td>Số KH mới</td><td>126</td><td>—</td><td>2</td><td>—</td><td>9</td><td>15</td><td class="drp-mkt-total">152</td><td>35</td><td class="drp-total">595<sup>1</sup></td></tr>
+          <tr><td>% KH / Leads</td><td>6.6%</td><td>—</td><td>0.7%</td><td>—</td><td>0.4%</td><td>26.8%</td><td class="drp-mkt-total">3.5%</td><td>—<sup>2</sup></td><td class="drp-total">13.7%</td></tr>
+          <tr><td>Số Đơn Hàng</td><td>126</td><td>—</td><td>2</td><td>—</td><td>9</td><td>15</td><td class="drp-mkt-total">152</td><td>37</td><td class="drp-total">597<sup>1</sup></td></tr>
+          <tr><td>Chi phí QC (đ)</td><td>490,256,664</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="drp-mkt-total">490,256,664</td><td>—</td><td class="drp-total">490,256,664</td></tr>
+          <tr><td>Doanh số (đ)</td><td>42,667,880</td><td>—</td><td>456,000</td><td>—</td><td>2,220,000</td><td>4,290,000</td><td class="drp-mkt-total">49,633,880</td><td>7,540,000</td><td class="drp-total">587,659,880<sup>1</sup></td></tr>
+          <tr><td>Doanh thu "Đã thu"</td><td>46,491,880</td><td>—</td><td>105,000</td><td>—</td><td>3,235,000</td><td>4,674,000</td><td class="drp-mkt-total">54,505,880</td><td>6,727,000</td><td class="drp-total">583,767,880<sup>1</sup></td></tr>
+          <tr><td>Chưa thu (đ)</td><td>6,676,000</td><td>—</td><td class="drp-red">351,000</td><td>—</td><td>0</td><td>456,000</td><td class="drp-mkt-total">7,483,000</td><td>988,000</td><td class="drp-total">3,892,000<sup>1</sup></td></tr>
+          <tr><td>% Chưa thu</td><td>15.6%</td><td>—</td><td class="drp-red">77.0%</td><td>—</td><td>0%</td><td>10.6%</td><td class="drp-mkt-total">15.1%</td><td>13.1%</td><td class="drp-total">0.7%</td></tr>
+          <tr><td>AOV (đ)</td><td>338,634</td><td>—</td><td>228,000</td><td>—</td><td>246,667</td><td>286,000</td><td class="drp-mkt-total">326,538</td><td>203,784</td><td class="drp-total">984,355<sup>1</sup></td></tr>
+          <tr><td>CAC (đ)</td><td>3,891,751</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="drp-mkt-total">3,225,373</td><td>—</td><td class="drp-total">823,961</td></tr>
+          <tr><td>ROAS</td><td class="drp-red">0.09×</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="drp-mkt-total drp-red">0.10×</td><td>—</td><td class="drp-total">1.20×</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="dark-report-note">
+      <sup>1</sup> Tổng chỉ tính riêng Team Tele Sales (bao gồm toàn bộ KH mới T5, kể cả KH từ leads tháng trước). &nbsp;
+      <sup>2</sup> Referral: không tính % KH/Leads vì không có tổng leads Referral chuẩn.
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 2 — TỔNG KẾT KH CŨ VS KH MỚI
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s2">
+  <div class="section-title">
+    <span class="sec-num">02</span>
+    Tổng kết KH cũ vs KH mới — T5/2026
+  </div>
+
+  <!-- KPI row -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kc-label">KH mới — số khách</div>
+      <div class="kc-value kc-val-blue">595</div>
+      <div class="kc-sub down">↓ 30.1% vs T4 (851)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kc-label">KH cũ quay lại</div>
+      <div class="kc-value kc-val-green">1,148</div>
+      <div class="kc-sub up">↑ 1.8% vs T4 (1,128)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kc-label">Tổng doanh số</div>
+      <div class="kc-value kc-value-sm">1.95 tỷ</div>
+      <div class="kc-sub down">↓ 19.5% vs T4 (2.42 tỷ)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kc-label">Tổng đơn hàng</div>
+      <div class="kc-value">1,847</div>
+      <div class="kc-sub down">↓ 11.7% vs T4 (2,091)</div>
+    </div>
+  </div>
+
+  <!-- Unified KH Cũ vs KH Mới table -->
+  <div class="dark-report-panel" style="margin-bottom:20px;">
+    <div class="tbl-wrap">
+      <table class="dark-report-tbl">
+        <thead>
+          <tr>
+            <th class="drp-rowlabel">Chỉ số</th>
+            <th>KH Cũ</th>
+            <th>KH Mới</th>
+            <th class="drp-total-head">Tổng KH</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Số KH</td>
+            <td>1,148</td>
+            <td>595</td>
+            <td class="drp-total">1,743</td>
+          </tr>
+          <tr>
+            <td>Số Đơn Hàng</td>
+            <td>1,250</td>
+            <td>597</td>
+            <td class="drp-total">1,847</td>
+          </tr>
+          <tr>
+            <td>Doanh Số (đ)</td>
+            <td>1,357,378,000</td>
+            <td>587,659,880</td>
+            <td class="drp-total">1,945,037,880</td>
+          </tr>
+          <tr>
+            <td>Doanh Thu "Đã Thu"</td>
+            <td class="drp-green">1,055,553,000</td>
+            <td class="drp-green">583,767,880</td>
+            <td class="drp-total">1,639,320,880</td>
+          </tr>
+          <tr>
+            <td>Chưa Thu (đ)</td>
+            <td class="drp-red">301,825,000</td>
+            <td>3,892,000</td>
+            <td class="drp-total">305,717,000</td>
+          </tr>
+          <tr>
+            <td>% Chưa Thu</td>
+            <td class="drp-red">22.2%</td>
+            <td>0.7%</td>
+            <td class="drp-total">15.7%</td>
+          </tr>
+          <tr>
+            <td>AOV (đ)</td>
+            <td>1,085,902</td>
+            <td>984,354</td>
+            <td class="drp-total">1,053,079</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Comparison table -->
+  <div class="panel">
+    <div class="panel-title">So sánh T5 vs T4 — KH mới & KH cũ</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:left">Chỉ số</th>
+            <th>KH Mới T5</th><th>KH Mới T4</th><th>MoM</th>
+            <th>KH Cũ T5</th><th>KH Cũ T4</th><th>MoM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Số khách</td>
+            <td>595</td><td>851</td>
+            <td class="txt-red">↓ 30.1%</td>
+            <td>1,148</td><td>1,128</td>
+            <td class="txt-green">↑ 1.8%</td>
+          </tr>
+          <tr>
+            <td>Số đơn</td>
+            <td>597</td><td>852</td>
+            <td class="txt-red">↓ 29.9%</td>
+            <td>1,250</td><td>1,239</td>
+            <td class="txt-green">↑ 0.9%</td>
+          </tr>
+          <tr>
+            <td>Doanh số (đ)</td>
+            <td>587,659,880</td><td>921,690,800</td>
+            <td class="txt-red">↓ 36.2%</td>
+            <td>1,357,378,000</td><td>1,495,953,000</td>
+            <td class="txt-red">↓ 9.3%</td>
+          </tr>
+          <tr>
+            <td>Doanh thu (đ)</td>
+            <td>583,767,880</td><td>827,921,800</td>
+            <td class="txt-red">↓ 29.5%</td>
+            <td>1,055,553,000</td><td>1,326,457,000</td>
+            <td class="txt-red">↓ 20.4%</td>
+          </tr>
+          <tr>
+            <td>Công nợ (đ)</td>
+            <td>3,892,000</td><td>93,769,000</td>
+            <td class="txt-red">↓ 95.8%</td>
+            <td>301,825,000</td><td>169,496,000</td>
+            <td class="txt-red">↑ 78.1%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 3 — SPEED METRICS
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s3">
+  <div class="section-title">
+    <span class="sec-num">03</span>
+    Speed Metrics — T5/2026
+  </div>
+  <div class="dark-report-panel">
+    <table class="spd-tbl">
+      <thead>
+        <tr>
+          <th>Chỉ số</th>
+          <th>Team "trung bình"</th>
+          <th>Cá nhân xử lý nhanh nhất</th>
+          <th>Cá nhân xử lý chậm nhất</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tbody>
+        <tr>
+          <td>
+            <div class="spd-metric-name">Speed to Lead</div>
+            <div class="spd-metric-sub">lead_created_at → lần xử lý đầu tiên</div>
+          </td>
+          <td class="spd-col-center">
+            <div class="spd-team-val">61h 04m</div>
+            <div class="spd-team-sub">Avg · 964 leads<br>Median: 25h 02m</div>
+          </td>
+          <td class="spd-col-center">
+            <div class="spd-person-val fast">22h 12m</div>
+            <div class="spd-person-name">Lê Thị Lan Anh</div>
+            <span class="spd-badge fast">8 leads</span>
+          </td>
+          <td class="spd-col-center">
+            <div class="spd-person-val slow">151h 41m</div>
+            <div class="spd-person-sub">≈ 6 ngày 7h</div>
+            <div class="spd-person-name">Phạm Phan Ngọc Tú</div>
+            <span class="spd-badge slow">68 leads</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="spd-metric-name">Speed to Pick / Auto Lead</div>
+            <div class="spd-metric-sub">task created_at → processed_date</div>
+          </td>
+          <td class="spd-col-center">
+            <div class="spd-team-val">3h 15m</div>
+            <div class="spd-team-sub">Avg · 3,432 tasks<br>Median: 1 phút</div>
+          </td>
+          <td class="spd-col-center">
+            <div class="spd-person-val fast">6 phút</div>
+            <div class="spd-person-name">Nguyễn Thị Kim Ngân</div>
+            <span class="spd-badge fast">138 tasks</span>
+          </td>
+          <td class="spd-col-center">
+            <div class="spd-person-val slow">19h 51m</div>
+            <div class="spd-person-name">Nguyễn Ngọc Thanh Ngân</div>
+            <span class="spd-badge slow">89 tasks</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="spd-metric-name">Thời lượng trao đổi với KH qua call</div>
+            <div class="spd-metric-sub">Cuộc gọi đi có trả lời · duration (giây)</div>
+          </td>
+          <td class="spd-col-center">
+            <div class="spd-team-val">51 giây</div>
+            <div class="spd-team-sub">Avg · 5,838 cuộc<br>Median: 27 giây</div>
+          </td>
+          <td class="spd-col-center">
+            <div class="spd-person-val fast">38 giây</div>
+            <div class="spd-person-name">Trần Thị Ngọc Yến</div>
+            <span class="spd-badge fast">163 cuộc</span>
+          </td>
+          <td class="spd-col-center">
+            <div class="spd-person-val slow">93 giây</div>
+            <div class="spd-person-name">Trần Thị Quỳnh Như</div>
+            <span class="spd-badge slow">49 cuộc</span>
+          </td>
+        </tr>
+      </tbody>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 4 — KẾT QUẢ KINH DOANH TỪNG NHÂN VIÊN
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s4">
+  <div class="section-title">
+    <span class="sec-num">04</span>
+    Kết quả kinh doanh từng nhân viên — T5/2026
+  </div>
+  <div class="panel">
+    <div class="sort-bar">
+      <span>Sắp xếp:</span>
+      <button class="sort-btn" onclick="sortKD(8,'desc',this)">DS cao nhất</button>
+      <button class="sort-btn" onclick="sortKD(8,'asc',this)">DS thấp nhất</button>
+      <button class="sort-btn" onclick="sortKD(6,'desc',this)">Tổng đơn ↓</button>
+      <button class="sort-btn" onclick="sortKD(7,'desc',this)">AOV cao nhất</button>
+      <button class="sort-btn" onclick="sortKD(1,'desc',this)">KH mới MKT ↓</button>
+      <button class="sort-btn" onclick="sortKD(3,'desc',this)">KH cũ ↓</button>
+      <button class="sort-btn" onclick="sortKD(10,'desc',this)">Công nợ ↓</button>
+      <button class="sort-btn" onclick="sortKD(0,'asc',this)">Tên A→Z</button>
+    </div>
+    <div class="tbl-wrap">
+      <table class="agent-table" id="kdTable">
+        <thead>
+          <tr>
+            <th class="sortable" style="text-align:left; min-width:180px" onclick="sortKD(0,'toggle',this)">Nhân viên</th>
+            <th class="sortable" onclick="sortKD(1,'toggle',this)">KH mới (MKT)</th>
+            <th class="sortable" onclick="sortKD(2,'toggle',this)">KH mới (Ref)</th>
+            <th class="sortable" onclick="sortKD(3,'toggle',this)">KH Cũ</th>
+            <th class="sortable" onclick="sortKD(4,'toggle',this)">Đơn KH Mới</th>
+            <th class="sortable" onclick="sortKD(5,'toggle',this)">Đơn KH Cũ</th>
+            <th class="sortable" onclick="sortKD(6,'toggle',this)">Tổng Đơn</th>
+            <th class="sortable" onclick="sortKD(7,'toggle',this)">AOV</th>
+            <th class="sortable" onclick="sortKD(8,'toggle',this)">Doanh Số</th>
+            <th class="sortable" onclick="sortKD(9,'toggle',this)">Doanh Thu</th>
+            <th class="sortable" onclick="sortKD(10,'toggle',this)">Công Nợ</th>
+          </tr>
+        </thead>
+        <tbody id="kdBody">
+          <tr><td><span class="rank-badge rank-1">1</span>Trần Thị Quỳnh Như</td><td>35</td><td>5</td><td>129</td><td>40</td><td>136</td><td>176</td><td>1.190.250</td><td><span class="chip chip-blue">209.5 tr</span></td><td>194.3 tr</td><td>15.2 tr</td></tr>
+          <tr><td><span class="rank-badge rank-2">2</span>Lý Trà My</td><td>56</td><td>1</td><td>89</td><td>57</td><td>98</td><td>155</td><td>1.234.193</td><td><span class="chip chip-blue">191.3 tr</span></td><td>142.0 tr</td><td>49.3 tr</td></tr>
+          <tr><td><span class="rank-badge rank-3">3</span>Nguyễn Thị Thảo Vân </td><td>40</td><td>3</td><td>76</td><td>44</td><td>81</td><td>125</td><td>1.295.504</td><td><span class="chip chip-blue">161.9 tr</span></td><td>134.8 tr</td><td>27.1 tr</td></tr>
+          <tr><td><span class="rank-badge ">4</span>Chung Phi Yến</td><td>50</td><td>5</td><td>69</td><td>56</td><td>76</td><td>132</td><td>1.172.044</td><td><span class="chip chip-blue">154.7 tr</span></td><td>138.0 tr</td><td>16.7 tr</td></tr>
+          <tr><td><span class="rank-badge ">5</span>Nguyễn Thị Thuận</td><td>28</td><td>4</td><td>81</td><td>32</td><td>87</td><td>119</td><td>1.269.512</td><td><span class="chip chip-blue">151.1 tr</span></td><td>127.1 tr</td><td>23.9 tr</td></tr>
+          <tr><td><span class="rank-badge ">6</span>Nguyễn Thị Chân</td><td>36</td><td>1</td><td>68</td><td>37</td><td>77</td><td>114</td><td>1.288.850</td><td><span class="chip chip-blue">146.9 tr</span></td><td>127.4 tr</td><td>19.5 tr</td></tr>
+          <tr><td><span class="rank-badge ">7</span>Đặng Thị Như Ngọc</td><td>53</td><td>2</td><td>87</td><td>55</td><td>92</td><td>147</td><td>930.455</td><td><span class="chip chip-blue">136.8 tr</span></td><td>106.4 tr</td><td>30.4 tr</td></tr>
+          <tr><td><span class="rank-badge ">8</span>Nguyễn Ngọc Thanh Ngân</td><td>40</td><td>0</td><td>108</td><td>40</td><td>123</td><td>163</td><td>836.441</td><td><span class="chip chip-blue">136.3 tr</span></td><td>108.3 tr</td><td>28.0 tr</td></tr>
+          <tr><td><span class="rank-badge ">9</span>Trần Thị Thùy Vân</td><td>42</td><td>1</td><td>60</td><td>43</td><td>64</td><td>107</td><td>921.691</td><td><span class="chip chip-blue">98.6 tr</span></td><td>90.2 tr</td><td>8.4 tr</td></tr>
+          <tr><td><span class="rank-badge ">10</span>Hồ Thị Hồng Diễm</td><td>8</td><td>0</td><td>72</td><td>8</td><td>76</td><td>84</td><td>1.065.011</td><td><span class="chip chip-blue">89.5 tr</span></td><td>80.2 tr</td><td>9.3 tr</td></tr>
+          <tr><td><span class="rank-badge ">11</span>Đặng Thị Tuyết Trinh</td><td>44</td><td>3</td><td>77</td><td>47</td><td>81</td><td>128</td><td>696.195</td><td><span class="chip chip-blue">89.1 tr</span></td><td>90.7 tr</td><td>-1.6 tr</td></tr>
+          <tr><td><span class="rank-badge ">12</span>Võ Ngọc Linh</td><td>22</td><td>1</td><td>31</td><td>23</td><td>38</td><td>61</td><td>1.430.819</td><td><span class="chip chip-blue">87.3 tr</span></td><td>46.5 tr</td><td>40.8 tr</td></tr>
+          <tr><td><span class="rank-badge ">13</span>Phạm Phan Ngọc Tú</td><td>42</td><td>3</td><td>51</td><td>45</td><td>58</td><td>103</td><td>662.233</td><td><span class="chip chip-blue">68.2 tr</span></td><td>66.0 tr</td><td>2.2 tr</td></tr>
+          <tr><td><span class="rank-badge ">14</span>Nguyễn Thị Kim Ngân  </td><td>34</td><td>2</td><td>29</td><td>36</td><td>31</td><td>67</td><td>929.119</td><td><span class="chip chip-blue">62.3 tr</span></td><td>63.5 tr</td><td>-1.3 tr</td></tr>
+          <tr><td><span class="rank-badge ">15</span>Trần Thị Ngọc Yến </td><td>7</td><td>0</td><td>47</td><td>7</td><td>47</td><td>54</td><td>792.037</td><td><span class="chip chip-blue">42.8 tr</span></td><td>40.7 tr</td><td>2.0 tr</td></tr>
+          <tr><td><span class="rank-badge ">16</span>Lý Thị Chi</td><td>6</td><td>0</td><td>25</td><td>6</td><td>27</td><td>33</td><td>1.067.757</td><td><span class="chip chip-blue">35.2 tr</span></td><td>24.0 tr</td><td>11.3 tr</td></tr>
+          <tr><td><span class="rank-badge ">17</span>Lê Thị Lan Anh</td><td>3</td><td>3</td><td>24</td><td>6</td><td>24</td><td>30</td><td>887.333</td><td><span class="chip chip-blue">26.6 tr</span></td><td>27.4 tr</td><td>-0.8 tr</td></tr>
+          <tr><td><span class="rank-badge ">18</span>Nguyễn Lê Thị Thanh Trúc</td><td>3</td><td>1</td><td>4</td><td>4</td><td>4</td><td>8</td><td>1.940.625</td><td><span class="chip chip-blue">15.5 tr</span></td><td>3.7 tr</td><td>11.8 tr</td></tr>
+          <tr><td><span class="rank-badge ">19</span>Nguyễn Thị Kim Mai</td><td>1</td><td>2</td><td>4</td><td>3</td><td>4</td><td>7</td><td>1.677.142</td><td><span class="chip chip-blue">11.7 tr</span></td><td>1.2 tr</td><td>10.6 tr</td></tr>
+          <tr><td><span class="rank-badge ">20</span> Nguyễn Thị Huỳnh Như</td><td>0</td><td>0</td><td>7</td><td>0</td><td>7</td><td>7</td><td>1.382.857</td><td><span class="chip chip-blue">9.7 tr</span></td><td>9.8 tr</td><td>-0.1 tr</td></tr>
+          <tr><td><span class="rank-badge ">21</span>Trần Kim Thoa</td><td>2</td><td>0</td><td>8</td><td>2</td><td>8</td><td>10</td><td>813.700</td><td><span class="chip chip-blue">8.1 tr</span></td><td>6.6 tr</td><td>1.5 tr</td></tr>
+          <tr><td><span class="rank-badge ">22</span>TRẦN CẨM THUẬN</td><td>1</td><td>0</td><td>5</td><td>1</td><td>5</td><td>6</td><td>920.000</td><td><span class="chip chip-blue">5.5 tr</span></td><td>4.4 tr</td><td>1.2 tr</td></tr>
+          <tr><td><span class="rank-badge ">23</span>Nguyễn Trần Thanh Mai</td><td>3</td><td>0</td><td>3</td><td>3</td><td>3</td><td>6</td><td>646.000</td><td><span class="chip chip-blue">3.9 tr</span></td><td>4.3 tr</td><td>-0.4 tr</td></tr>
+          <tr><td><span class="rank-badge ">24</span>Nguyễn Ngọc Vân Khoa</td><td>2</td><td>0</td><td>3</td><td>2</td><td>3</td><td>5</td><td>489.600</td><td><span class="chip chip-blue">2.4 tr</span></td><td>1.9 tr</td><td>0.6 tr</td></tr>
+          <tr class="total-row"><td><b>TỔNG / TB</b></td><td><b>558</b></td><td><b>37</b></td><td><b>1.157<sup>*</sup></b></td><td><b>597</b></td><td><b>1.250</b></td><td><b>1.847</b></td><td><b>1.053.079</b></td><td><b>1945.0 tr</b></td><td><b>1639.3 tr</b></td><td><b>305.7 tr</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px; color:var(--gray-500); margin-top:10px; padding:0 4px;">
+      <sup>*</sup> KH cũ TỔNG = 1.157 (tổng theo cá nhân) vs 1.148 unique KH cũ (S02) — chênh 9 do một số KH được 2 agent cùng phục vụ trong T5 nên bị đếm 2 lần.
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 5 — KẾT QUẢ VẬN HÀNH TỪNG NHÂN VIÊN
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s5">
+  <div class="section-title">
+    <span class="sec-num">05</span>
+    Kết quả vận hành từng nhân viên — T5/2026
+  </div>
+  <div class="panel">
+    <div class="sort-bar">
+      <span>Sắp xếp:</span>
+      <button class="sort-btn" onclick="sortVH(2,'desc',this)">Leads mới ↓</button>
+      <button class="sort-btn" onclick="sortVH(3,'desc',this)">Leads Ref ↓</button>
+      <button class="sort-btn" onclick="sortVH(6,'asc',this)">Speed to Lead ↑</button>
+      <button class="sort-btn" onclick="sortVH(7,'desc',this)">Conv% ↓</button>
+      <button class="sort-btn" onclick="sortVH(10,'desc',this)">Call Out ↓</button>
+      <button class="sort-btn" onclick="sortVH(12,'desc',this)">Thời lượng ↓</button>
+      <button class="sort-btn" onclick="sortVH(0,'asc',this)">Tên A→Z</button>
+    </div>
+    <div class="tbl-wrap">
+      <table class="agent-table" id="vhTable">
+        <thead>
+          <tr>
+            <th class="sortable" style="text-align:left; min-width:180px" onclick="sortVH(0,'toggle',this)">Nhân viên</th>
+            <th class="sortable" onclick="sortVH(1,'toggle',this)">Leads Đã Pick</th>
+            <th class="sortable" onclick="sortVH(2,'toggle',this)">Leads Mới</th>
+            <th class="sortable" onclick="sortVH(3,'toggle',this)">Leads Ref</th>
+            <th class="sortable" onclick="sortVH(4,'toggle',this)">Tổng Leads</th>
+            <th class="sortable" onclick="sortVH(5,'toggle',this)">Speed To Pick</th>
+            <th class="sortable" onclick="sortVH(6,'toggle',this)">Speed To Lead</th>
+            <th class="sortable" onclick="sortVH(7,'toggle',this)">Conv% KH</th>
+            <th class="sortable" onclick="sortVH(8,'toggle',this)">SL Call In</th>
+            <th class="sortable" onclick="sortVH(9,'toggle',this)">SL Call Nhỡ</th>
+            <th class="sortable" onclick="sortVH(10,'toggle',this)">SL Call Out</th>
+            <th class="sortable" onclick="sortVH(11,'toggle',this)">SL Call Out Nghe Máy</th>
+            <th class="sortable" onclick="sortVH(12,'toggle',this)">Thời Lượng</th>
+          </tr>
+        </thead>
+        <tbody id="vhBody">
+          <tr><td><span class="rank-badge rank-1">1</span>Trần Thị Quỳnh Như</td><td>221</td><td>232</td><td>6</td><td>232</td><td>1h35m</td><td>59h24m</td><td>17.2%</td><td>36</td><td>36</td><td>2.444</td><td>49</td><td>1h16m</td></tr>
+          <tr><td><span class="rank-badge rank-2">2</span>Lý Trà My</td><td>308</td><td>315</td><td>3</td><td>315</td><td>6h37m</td><td>43h32m</td><td>18.1%</td><td>24</td><td>24</td><td>866</td><td>156</td><td>3h47m</td></tr>
+          <tr><td><span class="rank-badge rank-3">3</span>Nguyễn Thị Thảo Vân</td><td>178</td><td>184</td><td>4</td><td>184</td><td>4h01m</td><td>61h23m</td><td>23.4%</td><td>51</td><td>51</td><td>1.412</td><td>539</td><td>5h46m</td></tr>
+          <tr><td><span class="rank-badge ">4</span>Chung Phi Yến</td><td>325</td><td>331</td><td>7</td><td>331</td><td>2h29m</td><td>45h11m</td><td>16.6%</td><td>40</td><td>35</td><td>2.307</td><td>139</td><td>3h09m</td></tr>
+          <tr><td><span class="rank-badge ">5</span>Nguyễn Thị Thuận</td><td>219</td><td>222</td><td>4</td><td>222</td><td>48 phút</td><td>30h46m</td><td>14.4%</td><td>31</td><td>24</td><td>2.196</td><td>394</td><td>7h51m</td></tr>
+          <tr><td><span class="rank-badge ">6</span>Nguyễn Thị Chân</td><td>226</td><td>228</td><td>4</td><td>228</td><td>1h08m</td><td>82h34m</td><td>16.2%</td><td>34</td><td>34</td><td>904</td><td>269</td><td>3h17m</td></tr>
+          <tr><td><span class="rank-badge ">7</span>Nguyễn Ngọc Thanh Ngân</td><td>253</td><td>259</td><td>5</td><td>259</td><td>19h51m</td><td>58h04m</td><td>15.4%</td><td>102</td><td>98</td><td>365</td><td>141</td><td>2h35m</td></tr>
+          <tr><td><span class="rank-badge ">8</span>Đặng Thị Như Ngọc</td><td>242</td><td>247</td><td>4</td><td>247</td><td>6h04m</td><td>46h14m</td><td>22.3%</td><td>130</td><td>119</td><td>1.964</td><td>483</td><td>6h32m</td></tr>
+          <tr><td><span class="rank-badge ">9</span>Trần Thị Thùy Vân</td><td>307</td><td>311</td><td>2</td><td>311</td><td>33 phút</td><td>42h16m</td><td>13.8%</td><td>125</td><td>120</td><td>2.237</td><td>494</td><td>6h25m</td></tr>
+          <tr><td><span class="rank-badge ">10</span>Hồ Thị Hồng Diễm</td><td>82</td><td>83</td><td>5</td><td>83</td><td>20 phút</td><td>30h07m</td><td>9.6%</td><td>29</td><td>25</td><td>710</td><td>258</td><td>3h13m</td></tr>
+          <tr><td><span class="rank-badge ">11</span>Đặng Thị Tuyết Trinh</td><td>294</td><td>298</td><td>7</td><td>298</td><td>14h06m</td><td>36h45m</td><td>15.8%</td><td>72</td><td>72</td><td>2.139</td><td>624</td><td>8h25m</td></tr>
+          <tr><td><span class="rank-badge ">12</span>Võ Ngọc Linh</td><td>97</td><td>97</td><td>2</td><td>97</td><td>1h06m</td><td>83h48m</td><td>23.7%</td><td>28</td><td>26</td><td>940</td><td>278</td><td>4h18m</td></tr>
+          <tr><td><span class="rank-badge ">13</span>Phạm Phan Ngọc Tú</td><td>209</td><td>226</td><td>6</td><td>226</td><td>3h38m</td><td>151h41m</td><td>19.9%</td><td>258</td><td>218</td><td>2.444</td><td>976</td><td>12h56m</td></tr>
+          <tr><td><span class="rank-badge ">14</span>Nguyễn Thị Kim Ngân</td><td>179</td><td>179</td><td>2</td><td>179</td><td>6 phút</td><td>38h40m</td><td>20.1%</td><td>34</td><td>34</td><td>930</td><td>390</td><td>6h19m</td></tr>
+          <tr><td><span class="rank-badge ">15</span>Trần Thị Ngọc Yến</td><td>223</td><td>227</td><td>2</td><td>227</td><td>6h40m</td><td>60h17m</td><td>3.1%</td><td>24</td><td>24</td><td>593</td><td>163</td><td>1h44m</td></tr>
+          <tr><td><span class="rank-badge ">16</span>Lý Thị Chi</td><td>67</td><td>119</td><td>0</td><td>119</td><td>4 phút</td><td>115h26m</td><td>5.0%</td><td>5</td><td>4</td><td>223</td><td>38</td><td>36m</td></tr>
+          <tr><td><span class="rank-badge ">17</span>Lê Thị Lan Anh</td><td>66</td><td>70</td><td>4</td><td>70</td><td>1h02m</td><td>22h12m</td><td>8.6%</td><td>13</td><td>13</td><td>431</td><td>133</td><td>1h29m</td></tr>
+          <tr><td><span class="rank-badge ">18</span>Nguyễn Lê Thị Thanh Trúc</td><td>3</td><td>7</td><td>2</td><td>7</td><td>3 phút</td><td>—</td><td>57.1%</td><td>13</td><td>13</td><td>11</td><td>5</td><td>17m</td></tr>
+          <tr><td><span class="rank-badge ">19</span>Nguyễn Thị Kim Mai</td><td>17</td><td>17</td><td>2</td><td>17</td><td>—</td><td>—</td><td>17.6%</td><td>0</td><td>0</td><td>0</td><td>0</td><td>—</td></tr>
+          <tr><td><span class="rank-badge ">20</span>Nguyễn Thị Huỳnh Như</td><td>11</td><td>11</td><td>1</td><td>11</td><td>—</td><td>—</td><td>—</td><td>3</td><td>3</td><td>0</td><td>0</td><td>0m</td></tr>
+          <tr><td><span class="rank-badge ">21</span>Trần Kim Thoa</td><td>183</td><td>217</td><td>0</td><td>217</td><td>—</td><td>—</td><td>0.9%</td><td>4</td><td>4</td><td>187</td><td>14</td><td>11m</td></tr>
+          <tr><td><span class="rank-badge ">22</span>Trần Cẩm Thuận</td><td>104</td><td>119</td><td>0</td><td>119</td><td>7h22m</td><td>215h50m</td><td>—</td><td>0</td><td>0</td><td>0</td><td>0</td><td>—</td></tr>
+          <tr><td><span class="rank-badge ">23</span>Nguyễn Trần Thanh Mai</td><td>90</td><td>90</td><td>0</td><td>90</td><td>2h58m</td><td>68h32m</td><td>3.3%</td><td>45</td><td>42</td><td>695</td><td>132</td><td>3h02m</td></tr>
+          <tr><td><span class="rank-badge ">24</span>Nguyễn Ngọc Vân Khoa</td><td>96</td><td>101</td><td>0</td><td>101</td><td>22h05m</td><td>37h45m</td><td>2.0%</td><td>5</td><td>5</td><td>408</td><td>73</td><td>51m</td></tr>
+          <tr class="total-row"><td><b>TỔNG / TB</b></td><td><b>4,000</b></td><td><b>4,190</b></td><td><b>72</b></td><td><b>4,190</b></td><td><b>—</b></td><td><b>—</b></td><td><b>~14.2%</b></td><td><b>1,106</b></td><td><b>1,024</b></td><td><b>24.406</b></td><td><b>5.748</b></td><td><b>83h10m</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 6 — KẾT QUẢ XỬ LÝ CÔNG VIỆC
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s6">
+  <div class="section-title">
+    <span class="sec-num">06</span>
+    Kết quả xử lý công việc
+  </div>
+
+  <!-- Tab nav -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('leads',this)">Leads mới</button>
+    <button class="tab-btn" onclick="showTab('khcu',this)">KH cũ chăm sóc lại</button>
+    <button class="tab-btn" onclick="showTab('timetrack',this)">Time tracking</button>
+  </div>
+
+  <!-- ══ TAB 1: LEADS MỚI ══ -->
+  <div class="tab-panel" id="tab-leads">
+    <div class="subsec-label">Tổng quan funnel leads — T5/2026</div>
+    <div class="kpi-grid" style="margin-bottom:12px;">
+      <div class="kpi-card">
+        <div class="kc-label">Tổng leads mới T5</div>
+        <div class="kc-value">4.331</div>
+        <div class="kc-sub">Tele Sales · excl. Referral</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">Tasks Inbox (Ads/Facebook)</div>
+        <div class="kc-value">22.681</div>
+        <div class="kc-sub">total tasks xử lý Inbox</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">Tasks Gọi đi</div>
+        <div class="kc-value">4.056</div>
+        <div class="kc-sub">outbound call tasks</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">Gọi vào (inbound)</div>
+        <div class="kc-value">1.118</div>
+        <div class="kc-sub">83 đã nghe máy (7.4%)</div>
+      </div>
+    </div>
+    <div class="kpi-grid" style="margin-bottom:20px;">
+      <div class="kpi-card green">
+        <div class="kc-label">KH mới phát sinh đơn</div>
+        <div class="kc-value">595</div>
+        <div class="kc-sub">Conv 13.7% (595 / 4.331)</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kc-label">Leads chưa thành KH</div>
+        <div class="kc-value">3.736</div>
+        <div class="kc-sub">86.3%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">Agents xử lý</div>
+        <div class="kc-value">22</div>
+        <div class="kc-sub">Tele Sales T5/2026</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">Tổng calls gọi ra</div>
+        <div class="kc-value">24.679</div>
+        <div class="kc-sub">nghe máy 5.838 (23.7%)</div>
+      </div>
+    </div>
+
+    <div class="subsec-label">Kết quả cuộc gọi — Leads mới · T5/2026 (từ fct_calls_flat_v2)</div>
+    <div class="two-col">
+      <div>
+        <div class="result-panel rp-blue">
+          <div class="rp-header">TÍN HIỆU MUA HÀNG (437 cuộc gọi)</div>
+          <div class="prog-row">
+            <span class="prog-name">Đồng Ý Mua</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:61%"></div></div>
+            <span class="prog-count">267</span><span class="prog-pct">61%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Đang Cân Nhắc / So Sánh</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:32%"></div></div>
+            <span class="prog-count">138</span><span class="prog-pct">32%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Cần Hỏi Ý Kiến Người Thân</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:4%"></div></div>
+            <span class="prog-count">19</span><span class="prog-pct">4%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Yêu Cầu Thêm Thông Tin</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:3%"></div></div>
+            <span class="prog-count">13</span><span class="prog-pct">3%</span>
+          </div>
+        </div>
+        <div class="result-panel rp-red">
+          <div class="rp-header">KHÔNG CÓ NHU CẦU (155 cuộc gọi)</div>
+          <div class="prog-row">
+            <span class="prog-name">Không Còn Dùng Loại Sản Phẩm Này</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:54%"></div></div>
+            <span class="prog-count">83</span><span class="prog-pct">54%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Không Có Nhu Cầu / Không Muốn Tư Vấn</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:40%"></div></div>
+            <span class="prog-count">62</span><span class="prog-pct">40%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Mua Kênh Khác</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:6%"></div></div>
+            <span class="prog-count">10</span><span class="prog-pct">6%</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="result-panel rp-green">
+          <div class="rp-header">HẸN LIÊN HỆ LẠI SAU (466 cuộc gọi)</div>
+          <div class="prog-row">
+            <span class="prog-name">Còn Hàng Chưa Dùng Hết</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:82%"></div></div>
+            <span class="prog-count">384</span><span class="prog-pct">82%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Chưa Quyết Định Vì Giá / Số Lượng</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:15%"></div></div>
+            <span class="prog-count">68</span><span class="prog-pct">15%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Đang Đi Công Tác / Vắng Nhà</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:3%"></div></div>
+            <span class="prog-count">14</span><span class="prog-pct">3%</span>
+          </div>
+        </div>
+        <div class="result-panel rp-gray">
+          <div class="rp-header">KHÔNG LIÊN LẠC ĐƯỢC (11.595 cuộc gọi)</div>
+          <div class="prog-row">
+            <span class="prog-name">Không Nghe Máy</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:92%"></div></div>
+            <span class="prog-count">10.660</span><span class="prog-pct">92%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Đang Bận, Hẹn Gọi Lại</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:6%"></div></div>
+            <span class="prog-count">704</span><span class="prog-pct">6%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Thuê Bao / Không Liên Lạc Được</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:1%"></div></div>
+            <span class="prog-count">150</span><span class="prog-pct">1%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Chặn Cuộc Gọi / Tắt Máy Ngang</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:1%"></div></div>
+            <span class="prog-count">81</span><span class="prog-pct">1%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TAB 2: KH CŨ CHĂM SÓC LẠI ══ -->
+  <div class="tab-panel hidden" id="tab-khcu">
+    <div class="subsec-label">KH cũ — Tín hiệu từ cuộc gọi T5/2026</div>
+    <div class="kpi-grid" style="margin-bottom:20px;">
+      <div class="kpi-card green">
+        <div class="kc-label">KH cũ quay lại mua</div>
+        <div class="kc-value">1.148</div>
+        <div class="kc-sub">T5/2026</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">Tổng calls gọi ra</div>
+        <div class="kc-value">24.679</div>
+        <div class="kc-sub">22 agents</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kc-label">Đã nghe máy</div>
+        <div class="kc-value">5.838</div>
+        <div class="kc-sub">23.7%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">Gọi vào received</div>
+        <div class="kc-value">83</div>
+        <div class="kc-sub">/ 1.118 calls in</div>
+      </div>
+    </div>
+
+    <div class="subsec-label">Kết quả gọi — KH cũ · T5/2026 (từ fct_calls_flat_v2)</div>
+    <div class="two-col">
+      <div>
+        <div class="result-panel rp-blue">
+          <div class="rp-header">TÍN HIỆU TÁI MUA (1.448 cuộc gọi)</div>
+          <div class="prog-row">
+            <span class="prog-name">Quan Tâm Sản Phẩm Mới / Nâng Cấp</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:72%"></div></div>
+            <span class="prog-count">1.038</span><span class="prog-pct">72%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Đặt Đơn Hàng Mới</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:24%"></div></div>
+            <span class="prog-count">342</span><span class="prog-pct">24%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Sắp Hết Hàng, Chuẩn Bị Đặt</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:5%"></div></div>
+            <span class="prog-count">68</span><span class="prog-pct">5%</span>
+          </div>
+        </div>
+        <div class="result-panel rp-red">
+          <div class="rp-header">NGUY CƠ RỜI BỎ (1.913 cuộc gọi)</div>
+          <div class="prog-row">
+            <span class="prog-name">Ngừng Sử Dụng Sản Phẩm</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:66%"></div></div>
+            <span class="prog-count">1.261</span><span class="prog-pct">66%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Tạm Ngừng Đặt Hàng</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:23%"></div></div>
+            <span class="prog-count">432</span><span class="prog-pct">23%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Chuyển Sang Mua Kênh Khác</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:11%"></div></div>
+            <span class="prog-count">220</span><span class="prog-pct">11%</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="result-panel rp-green">
+          <div class="rp-header">KHIẾU NẠI (5 cuộc gọi)</div>
+          <div class="prog-row">
+            <span class="prog-name">Khiếu Nại Giao Hàng</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:80%"></div></div>
+            <span class="prog-count">4</span><span class="prog-pct">80%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Khiếu Nại Chất Lượng Sản Phẩm</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:20%"></div></div>
+            <span class="prog-count">1</span><span class="prog-pct">20%</span>
+          </div>
+        </div>
+        <div class="result-panel rp-gray">
+          <div class="rp-header">KHÔNG LIÊN LẠC ĐƯỢC (11.595 cuộc gọi)</div>
+          <div class="prog-row">
+            <span class="prog-name">Không Nghe Máy</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:92%"></div></div>
+            <span class="prog-count">10.660</span><span class="prog-pct">92%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Đang Bận, Hẹn Gọi Lại</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:6%"></div></div>
+            <span class="prog-count">704</span><span class="prog-pct">6%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Thuê Bao / Không Liên Lạc Được</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:1%"></div></div>
+            <span class="prog-count">150</span><span class="prog-pct">1%</span>
+          </div>
+          <div class="prog-row">
+            <span class="prog-name">Chặn Cuộc Gọi / Tắt Máy Ngang</span>
+            <div class="prog-bar"><div class="prog-fill" style="width:1%"></div></div>
+            <span class="prog-count">81</span><span class="prog-pct">1%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TAB 3: TIME TRACKING ══ -->
+  <div class="tab-panel hidden" id="tab-timetrack">
+    <div class="kpi-grid cols-3" style="margin-bottom:12px;">
+      <div class="kpi-card">
+        <div class="kc-label">Tổng calls gọi ra (T5)</div>
+        <div class="kc-value">24,679</div>
+        <div class="kc-sub">22 agents · toàn tháng 5</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kc-label">Calls được nghe máy</div>
+        <div class="kc-value">5,838</div>
+        <div class="kc-sub">Tỷ lệ nhắc máy 23.7%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">Calls / agent / ngày TB</div>
+        <div class="kc-value">51.0</div>
+        <div class="kc-sub">22 agents × 22 ngày</div>
+      </div>
+    </div>
+    <div class="kpi-grid cols-3" style="margin-bottom:24px;">
+      <div class="kpi-card">
+        <div class="kc-label">Tasks hoàn thành (state=3)</div>
+        <div class="kc-value">39,211</div>
+        <div class="kc-sub">Gọi đi 4,056 · Inbox 22,681</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">Agents hoạt động</div>
+        <div class="kc-value">22</div>
+        <div class="kc-sub">Tele Sales T5/2026</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">Giờ opt-in cao nhất</div>
+        <div class="kc-value kc-value-sm">14h</div>
+        <div class="kc-sub">1,371 leads · T6 29/5</div>
+      </div>
+    </div>
+
+    <div class="subsec-label">Phân bố leads opt-in theo giờ — T5/2026 (01/05 – 31/05) · Tele Sales · thực từ DW</div>
+    <div class="panel" style="padding:16px;">
+      <div class="heatmap-wrap">
+        <table class="heatmap-tbl">
+          <thead id="hmHead"></thead>
+          <tbody id="hmBody"></tbody>
+        </table>
+      </div>
+      <div class="hm-legend">
+        <span style="font-size:11px; color:var(--gray-500);">Mật độ:</span>
+        <span class="hm-legend-item"><span class="hm-legend-swatch" style="background:#dbeafe;"></span>1–10</span>
+        <span class="hm-legend-item"><span class="hm-legend-swatch" style="background:#93c5fd;"></span>11–50</span>
+        <span class="hm-legend-item"><span class="hm-legend-swatch" style="background:#3b82f6;"></span>51–150</span>
+        <span class="hm-legend-item"><span class="hm-legend-swatch" style="background:#1e3a8a;"></span>151+</span>
+      </div>
+      <p style="font-size:11px;color:var(--gray-500);margin-top:8px;">⚠ 11/5 (T2): ~50.3K leads — bulk import dữ liệu vào hệ thống, không phản ánh opt-in thực tế.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 7 — COHORT SỐ KH
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s7">
+  <div class="section-title">
+    <span class="sec-num">07</span>
+    Cohort số KH — Tele Sales · M+0 → M+24
+  </div>
+  <div class="panel">
+    <p style="font-size:11px; color:var(--gray-500); margin-bottom:14px;">
+      Số KH mới (cohort) quay lại mua ở các tháng tiếp theo. Mỗi hàng = nhóm KH có đơn đầu tiên trong tháng đó. <b>Màu xanh đậm hơn = số lượng cao hơn.</b>
+    </p>
+    <div class="cohort-wrap">
+      <table class="cohort-table" id="cohortKhTable">
+        <thead id="cohortKhHead"></thead>
+        <tbody id="cohortKhBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 8 — COHORT DOANH SỐ
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s8">
+  <div class="section-title">
+    <span class="sec-num">08</span>
+    Cohort doanh số — Tele Sales · M+0 → M+24 (triệu đ)
+  </div>
+  <div class="panel">
+    <p style="font-size:11px; color:var(--gray-500); margin-bottom:14px;">
+      Doanh số (triệu đồng) từ nhóm KH mới theo tháng cohort qua các tháng tiếp theo. <b>Màu xanh lá đậm hơn = doanh số cao hơn.</b>
+    </p>
+    <div class="cohort-wrap">
+      <table class="cohort-table" id="cohortRevTable">
+        <thead id="cohortRevHead"></thead>
+        <tbody id="cohortRevBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SECTION 09 — FORECAST SẢN LƯỢNG
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section" id="s9">
+  <div class="section-title">
+    <span class="sec-num">09</span>
+    ForeCast Sản lượng — T5/2026
+  </div>
+
+  <!-- KPI tổng theo SKU -->
+  <div class="kpi-grid" style="margin-bottom:20px;">
+    <div class="kpi-card">
+      <div class="kc-label">350ml</div>
+      <div class="kc-value">1,958</div>
+      <div class="kc-sub">thùng 24</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kc-label">500ml</div>
+      <div class="kc-value">11,953</div>
+      <div class="kc-sub">thùng 24</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kc-label">1500ml</div>
+      <div class="kc-value">19,491</div>
+      <div class="kc-sub">thùng 12</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kc-label">Bình 18.5L</div>
+      <div class="kc-value">13,679</div>
+      <div class="kc-sub">bình</div>
+    </div>
+  </div>
+
+  <!-- Bảng chi tiết -->
+  <div class="dark-report-panel">
+    <div class="tbl-wrap">
+      <table class="dark-report-tbl">
+        <thead>
+          <tr>
+            <th rowspan="2" class="drp-rowlabel">Chỉ số</th>
+            <th colspan="4" class="drp-group">Sản lượng theo sản phẩm</th>
+            <th rowspan="2" class="drp-total-head">Tổng</th>
+          </tr>
+          <tr>
+            <th>350ml</th>
+            <th>500ml</th>
+            <th>1500ml</th>
+            <th>Bình 18.5L</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Số lượng bán</td><td>30,812</td><td>169,426</td><td>216,997</td><td>11,402</td><td class="drp-total">428,637</td></tr>
+          <tr><td>Số lượng Promotion</td><td>16,198</td><td>117,459</td><td>16,895</td><td>2,277</td><td class="drp-total">152,829</td></tr>
+          <tr><td>Số lượng SPS</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="drp-total">—</td></tr>
+          <tr><td><strong>Tổng sản lượng</strong></td><td class="drp-total">47,010</td><td class="drp-total">286,885</td><td class="drp-total">233,892</td><td class="drp-total">13,679</td><td class="drp-total">581,466</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="dark-report-note">
+      Bán = đơn hàng thông thường &nbsp;·&nbsp; Promotion = đơn khuyến mãi / tặng kèm &nbsp;·&nbsp; SPS = Special Purchase Scheme
+    </p>
+  </div>
+</div>
+
+</div><!-- /page-body -->
+
+<script>
+// ══════════════════════ TAB SWITCHING ══════════════════════
+function showTab(id, btn) {
+  document.querySelectorAll('#s6 .tab-panel').forEach(p => p.classList.add('hidden'));
+  document.querySelectorAll('#s6 .tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.remove('hidden');
+  btn.classList.add('active');
+}
+
+// ══════════════════════ HEATMAP T5/2026 ══════════════════════
+const heatRows = ["T6 (1/5)","T7 (2/5)","CN (3/5)","T2 (4/5)","T3 (5/5)","T4 (6/5)","T5 (7/5)","T6 (8/5)","T7 (9/5)","CN (10/5)","T2 (11/5)","T3 (12/5)","T4 (13/5)","T5 (14/5)","T6 (15/5)","T7 (16/5)","CN (17/5)","T2 (18/5)","T3 (19/5)","T4 (20/5)","T5 (21/5)","T6 (22/5)","T7 (23/5)","CN (24/5)","T2 (25/5)","T3 (26/5)","T4 (27/5)","T5 (28/5)","T6 (29/5)","T7 (30/5)","CN (31/5)"];
+const heatData = {
+  "T6 (1/5)": {},
+  "T7 (2/5)": {7:2, 8:137, 9:213, 10:175, 11:216, 12:8, 14:75, 15:1},
+  "CN (3/5)": {},
+  "T2 (4/5)": {8:19, 9:83, 10:96, 11:152, 12:1, 13:180, 14:137, 15:175, 16:272, 17:96},
+  "T3 (5/5)": {7:2, 8:70, 9:116, 10:163, 11:90, 12:31, 13:174, 14:218, 15:234, 16:206, 18:1},
+  "T4 (6/5)": {7:2, 8:93, 9:123, 10:181, 11:102, 12:23, 13:104, 14:186, 15:174, 16:169, 17:3, 22:13},
+  "T5 (7/5)": {7:18, 8:87, 9:113, 10:218, 11:130, 12:5, 13:102, 14:193, 15:257, 16:308, 17:2},
+  "T6 (8/5)": {7:3, 8:96, 9:155, 10:135, 11:120, 12:4, 13:203, 14:220, 15:259, 16:169, 17:22},
+  "T7 (9/5)": {8:53, 9:100, 10:170, 11:127, 13:73, 14:669, 15:49, 16:23, 17:6},
+  "CN (10/5)": {21:1},
+  "T2 (11/5)": {7:3, 8:13, 9:159, 10:81, 11:30, 12:13, 13:95, 14:12347, 15:8640, 16:6963, 17:6016, 18:5368, 19:4769, 20:4495, 21:1291},
+  "T3 (12/5)": {8:40, 9:95, 10:71, 11:28, 12:4, 13:79, 14:830, 15:91, 16:101, 18:1},
+  "T4 (13/5)": {7:2, 8:53, 9:111, 10:91, 11:32, 13:69, 14:318, 15:66, 16:96, 17:9},
+  "T5 (14/5)": {8:73, 9:57, 10:78, 11:26, 12:1, 13:65, 14:231, 15:121, 16:175},
+  "T6 (15/5)": {8:13, 9:30, 10:37, 11:19, 12:2, 13:28, 14:743, 15:27, 16:36},
+  "T7 (16/5)": {7:1, 8:8, 9:9, 10:11, 11:3, 12:1, 13:7, 14:614, 15:32, 16:37, 17:22},
+  "CN (17/5)": {},
+  "T2 (18/5)": {7:1, 8:4, 9:29, 10:9, 11:8, 13:4, 14:653, 15:2, 16:1, 17:1},
+  "T3 (19/5)": {7:3, 8:5, 9:3, 10:3, 13:7, 14:150, 15:36, 16:20, 21:1},
+  "T4 (20/5)": {8:6, 9:13, 10:24, 11:15, 13:44, 14:80, 15:40, 16:59, 17:1, 19:1},
+  "T5 (21/5)": {8:15, 9:46, 10:20, 11:10, 12:1, 13:59, 14:347, 15:36, 16:9, 17:38},
+  "T6 (22/5)": {8:52, 9:51, 10:31, 11:12, 13:40, 14:247, 15:22, 16:53},
+  "T7 (23/5)": {7:2, 8:36, 9:59, 10:24, 11:22, 13:44, 14:315, 15:87, 16:90},
+  "CN (24/5)": {8:12, 9:42, 10:32, 11:43, 13:28, 14:43, 15:21, 16:7},
+  "T2 (25/5)": {8:12, 9:25, 10:29, 11:19, 13:36, 14:244, 15:27, 16:6, 19:1},
+  "T3 (26/5)": {7:1, 8:45, 9:57, 10:68, 11:6, 13:41, 14:117, 15:45, 16:107, 17:23},
+  "T4 (27/5)": {7:1, 8:48, 9:72, 10:72, 11:61, 12:1, 13:41, 14:762, 15:30, 16:49},
+  "T5 (28/5)": {7:4, 8:22, 9:16, 10:40, 11:43, 12:1, 13:64, 14:226, 15:43, 16:56, 18:1},
+  "T6 (29/5)": {7:2, 8:14, 9:28, 10:56, 11:35, 13:69, 14:1371, 15:33, 16:29, 17:9},
+  "T7 (30/5)": {8:15, 9:31, 10:46, 11:27, 13:54, 14:395, 15:63, 16:1},
+  "CN (31/5)": {8:23, 9:66, 10:20, 11:2, 13:24, 14:29, 15:7, 16:1}
+};
+const heatDailyTotals = {
+  "T6 (1/5)":0,"T7 (2/5)":827,"CN (3/5)":0,"T2 (4/5)":1211,"T3 (5/5)":1305,
+  "T4 (6/5)":1173,"T5 (7/5)":1433,"T6 (8/5)":1386,"T7 (9/5)":1270,"CN (10/5)":1,
+  "T2 (11/5)":50283,"T3 (12/5)":1340,"T4 (13/5)":847,"T5 (14/5)":827,"T6 (15/5)":935,
+  "T7 (16/5)":745,"CN (17/5)":0,"T2 (18/5)":712,"T3 (19/5)":228,"T4 (20/5)":283,
+  "T5 (21/5)":581,"T6 (22/5)":508,"T7 (23/5)":679,"CN (24/5)":228,"T2 (25/5)":399,
+  "T3 (26/5)":510,"T4 (27/5)":1137,"T5 (28/5)":516,"T6 (29/5)":1646,"T7 (30/5)":632,"CN (31/5)":172
+};
+const heatHourTotals = {7:47,8:1064,9:1902,10:1981,11:1378,12:96,13:1734,14:21760,15:10618,16:9043,17:6248,18:5371,19:4771,20:4495,21:1293,22:13};
+const heatGrandTotal = 71814;
+
+function heatCls(v) {
+  if (!v) return 'hm-0';
+  return v >= 151 ? 'hm-4' : v >= 51 ? 'hm-3' : v >= 11 ? 'hm-2' : 'hm-1';
+}
+(function buildHeatmap() {
+  const hours = Array.from({length:24}, (_,i) => i);
+  let head = '<tr><th class="hm-row-label">Ngày</th>';
+  hours.forEach(h => { head += `<th>${h}</th>`; });
+  head += '<th class="hm-row-label" style="min-width:58px">Tổng</th></tr>';
+  document.getElementById('hmHead').innerHTML = head;
+  let body = '';
+  heatRows.forEach(day => {
+    const row = heatData[day] || {};
+    const dayTot = heatDailyTotals[day] || 0;
+    const is11 = day === 'T2 (11/5)';
+    body += `<tr><td class="hm-row-label"${is11?' style="color:var(--warning,#f59e0b)"':''}">${day}${is11?' ⚠':''}</td>`;
+    hours.forEach(h => {
+      const v = row[h] || 0;
+      body += `<td><div class="hm-cell ${heatCls(v)}">${v ? v.toLocaleString('vi-VN') : ''}</div></td>`;
+    });
+    body += `<td><div class="hm-cell" style="background:var(--gray-100,#f3f4f6);font-weight:600;font-size:10px;min-width:54px">${dayTot ? dayTot.toLocaleString('vi-VN') : ''}</div></td>`;
+    body += '</tr>';
+  });
+  // Totals row
+  body += '<tr><td class="hm-row-label" style="font-weight:700">Tổng Lead</td>';
+  hours.forEach(h => {
+    const v = heatHourTotals[h] || 0;
+    body += `<td><div class="hm-cell" style="background:var(--gray-100,#f3f4f6);font-weight:600;font-size:9px">${v ? v.toLocaleString('vi-VN') : ''}</div></td>`;
+  });
+  body += `<td><div class="hm-cell" style="background:var(--blue-100,#dbeafe);font-weight:700;font-size:10px;min-width:54px">${heatGrandTotal.toLocaleString('vi-VN')}</div></td>`;
+  body += '</tr>';
+  document.getElementById('hmBody').innerHTML = body;
+})();
+
+// ══════════════════════ COHORT DATA ══════════════════════
+const cohortData = {
+  "2024-07": {0:{kh:20,rev:51.2}},
+  "2024-08": {0:{kh:80,rev:146.5},1:{kh:8,rev:12.9},2:{kh:16,rev:30.3},3:{kh:18,rev:31.7},4:{kh:16,rev:29.8},5:{kh:16,rev:30.7},6:{kh:11,rev:19.6},7:{kh:18,rev:30.6},8:{kh:8,rev:14.1},9:{kh:20,rev:34.4},10:{kh:12,rev:24.8},11:{kh:16,rev:27.8},12:{kh:7,rev:12.8},13:{kh:9,rev:15.5},14:{kh:15,rev:25.5},15:{kh:8,rev:12.9},16:{kh:11,rev:20.8},17:{kh:9,rev:15.4},18:{kh:4,rev:4.8},19:{kh:10,rev:10.2},20:{kh:10,rev:18.8},21:{kh:4,rev:5.8},22:{kh:1,rev:1.7}},
+  "2024-09": {0:{kh:112,rev:185.8},1:{kh:13,rev:23.4},2:{kh:22,rev:53.7},3:{kh:35,rev:69.8},4:{kh:15,rev:34.2},5:{kh:18,rev:48.1},6:{kh:28,rev:65.8},7:{kh:14,rev:26.9},8:{kh:29,rev:57.2},9:{kh:14,rev:43.4},10:{kh:18,rev:36.4},11:{kh:16,rev:40.3},12:{kh:15,rev:22.8},13:{kh:18,rev:36.1},14:{kh:20,rev:43.4},15:{kh:21,rev:47.8},16:{kh:18,rev:37.0},17:{kh:4,rev:6.6},18:{kh:14,rev:24.0},19:{kh:7,rev:18.4},20:{kh:11,rev:18.7},21:{kh:3,rev:6.1}},
+  "2024-10": {0:{kh:74,rev:93.8},1:{kh:3,rev:3.1},2:{kh:13,rev:18.0},3:{kh:7,rev:12.6},4:{kh:8,rev:12.1},5:{kh:8,rev:10.9},6:{kh:5,rev:7.9},7:{kh:16,rev:24.9},8:{kh:7,rev:12.2},9:{kh:7,rev:12.3},10:{kh:9,rev:13.3},11:{kh:3,rev:4.7},12:{kh:10,rev:17.8},13:{kh:5,rev:6.2},14:{kh:9,rev:13.8},15:{kh:12,rev:15.5},16:{kh:3,rev:4.0},17:{kh:4,rev:5.2},18:{kh:10,rev:16.4},19:{kh:3,rev:5.2},20:{kh:1,rev:0.2}},
+  "2024-11": {0:{kh:78,rev:104.4},1:{kh:5,rev:13.9},2:{kh:3,rev:5.3},3:{kh:8,rev:27.0},4:{kh:15,rev:20.2},5:{kh:5,rev:13.4},6:{kh:13,rev:40.2},7:{kh:7,rev:32.0},8:{kh:9,rev:23.2},9:{kh:9,rev:27.4},10:{kh:4,rev:7.0},11:{kh:14,rev:30.4},12:{kh:5,rev:26.3},13:{kh:9,rev:27.9},14:{kh:13,rev:24.5},15:{kh:7,rev:8.2},16:{kh:5,rev:5.9},17:{kh:3,rev:5.3},18:{kh:6,rev:8.6},19:{kh:1,rev:1.2}},
+  "2024-12": {0:{kh:54,rev:109.3},1:{kh:4,rev:9.0},2:{kh:4,rev:8.2},3:{kh:4,rev:4.8},4:{kh:3,rev:2.6},5:{kh:6,rev:13.7},6:{kh:3,rev:5.0},7:{kh:8,rev:37.3},8:{kh:4,rev:7.1},10:{kh:6,rev:10.2},11:{kh:4,rev:5.9},12:{kh:12,rev:48.4},13:{kh:7,rev:11.0},14:{kh:1,rev:1.0},15:{kh:4,rev:5.5},16:{kh:9,rev:11.0},17:{kh:2,rev:0.5}},
+  "2025-01": {0:{kh:56,rev:62.6},1:{kh:2,rev:4.7},2:{kh:3,rev:4.7},3:{kh:1,rev:5.5},4:{kh:5,rev:32.1},5:{kh:2,rev:3.9},6:{kh:3,rev:4.3},7:{kh:4,rev:5.8},8:{kh:4,rev:6.2},9:{kh:4,rev:4.0},10:{kh:2,rev:2.3},11:{kh:6,rev:8.6},12:{kh:7,rev:16.2},13:{kh:1,rev:1.0},14:{kh:3,rev:6.3},15:{kh:3,rev:3.7},16:{kh:3,rev:3.2}},
+  "2025-02": {0:{kh:98,rev:135.4},1:{kh:6,rev:12.3},2:{kh:6,rev:9.7},3:{kh:8,rev:15.4},4:{kh:6,rev:19.3},5:{kh:9,rev:13.0},6:{kh:8,rev:14.7},7:{kh:5,rev:6.2},8:{kh:4,rev:3.9},9:{kh:5,rev:6.3},10:{kh:12,rev:42.4},11:{kh:4,rev:3.1},12:{kh:4,rev:5.1},13:{kh:5,rev:2.5},14:{kh:10,rev:11.7},15:{kh:5,rev:5.8}},
+  "2025-03": {0:{kh:456,rev:303.6},1:{kh:10,rev:11.4},2:{kh:17,rev:47.3},3:{kh:15,rev:45.9},4:{kh:17,rev:81.0},5:{kh:16,rev:108.8},6:{kh:13,rev:47.5},7:{kh:31,rev:99.1},8:{kh:18,rev:112.1},9:{kh:31,rev:96.4},10:{kh:49,rev:48.1},11:{kh:7,rev:4.6},12:{kh:19,rev:19.4},13:{kh:22,rev:28.1},14:{kh:9,rev:7.0}},
+  "2025-04": {0:{kh:1309,rev:748.3},1:{kh:28,rev:33.0},2:{kh:37,rev:49.7},3:{kh:52,rev:71.2},4:{kh:52,rev:82.0},5:{kh:41,rev:63.2},6:{kh:112,rev:142.4},7:{kh:68,rev:98.8},8:{kh:80,rev:109.3},9:{kh:172,rev:201.6},10:{kh:25,rev:23.2},11:{kh:62,rev:52.1},12:{kh:55,rev:91.3},13:{kh:80,rev:90.1},14:{kh:13,rev:10.8}},
+  "2025-05": {0:{kh:375,rev:239.3},1:{kh:9,rev:14.3},2:{kh:19,rev:29.3},3:{kh:16,rev:20.0},4:{kh:17,rev:21.6},5:{kh:35,rev:54.6},6:{kh:16,rev:19.2},7:{kh:25,rev:35.0},8:{kh:48,rev:81.0},9:{kh:4,rev:1.2},10:{kh:18,rev:21.2},11:{kh:10,rev:15.9},12:{kh:21,rev:25.8},13:{kh:3,rev:3.3}},
+  "2025-06": {0:{kh:376,rev:297.1},1:{kh:8,rev:11.9},2:{kh:24,rev:31.0},3:{kh:19,rev:25.0},4:{kh:35,rev:47.5},5:{kh:26,rev:29.0},6:{kh:27,rev:37.5},7:{kh:43,rev:46.9},8:{kh:5,rev:2.8},9:{kh:20,rev:20.2},10:{kh:25,rev:48.4},11:{kh:6,rev:8.3},12:{kh:5,rev:7.1}},
+  "2025-07": {0:{kh:1212,rev:907.6},1:{kh:36,rev:45.2},2:{kh:42,rev:62.0},3:{kh:108,rev:140.8},4:{kh:80,rev:101.0},5:{kh:73,rev:109.1},6:{kh:141,rev:167.9},7:{kh:31,rev:35.2},8:{kh:62,rev:83.5},9:{kh:54,rev:63.5},10:{kh:74,rev:110.3},11:{kh:8,rev:7.6}},
+  "2025-08": {0:{kh:1409,rev:1000.5},1:{kh:43,rev:68.2},2:{kh:124,rev:191.7},3:{kh:69,rev:87.5},4:{kh:86,rev:130.6},5:{kh:119,rev:169.5},6:{kh:29,rev:46.9},7:{kh:88,rev:125.7},8:{kh:81,rev:143.0},9:{kh:58,rev:96.4},10:{kh:12,rev:15.3}},
+  "2025-09": {0:{kh:2267,rev:1539.5},1:{kh:54,rev:71.3},2:{kh:104,rev:123.2},3:{kh:124,rev:151.0},4:{kh:188,rev:228.4},5:{kh:47,rev:52.9},6:{kh:90,rev:108.8},7:{kh:92,rev:133.8},8:{kh:81,rev:102.7},9:{kh:13,rev:14.6}},
+  "2025-10": {0:{kh:2574,rev:1610.1},1:{kh:80,rev:98.4},2:{kh:153,rev:175.0},3:{kh:261,rev:287.4},4:{kh:44,rev:52.9},5:{kh:98,rev:127.5},6:{kh:113,rev:134.5},7:{kh:103,rev:130.0},8:{kh:16,rev:15.4}},
+  "2025-11": {0:{kh:2007,rev:1272.7},1:{kh:89,rev:94.5},2:{kh:245,rev:232.8},3:{kh:22,rev:21.2},4:{kh:77,rev:83.8},5:{kh:92,rev:112.5},6:{kh:93,rev:100.6},7:{kh:10,rev:11.1}},
+  "2025-12": {0:{kh:2101,rev:1369.0},1:{kh:209,rev:196.3},2:{kh:47,rev:44.9},3:{kh:84,rev:86.8},4:{kh:112,rev:137.9},5:{kh:100,rev:113.5},6:{kh:12,rev:15.7}},
+  "2026-01": {0:{kh:1139,rev:459.4},1:{kh:52,rev:24.9},2:{kh:87,rev:42.0},3:{kh:108,rev:94.2},4:{kh:70,rev:60.0},5:{kh:17,rev:11.8}},
+  "2026-02": {0:{kh:1193,rev:383.3},1:{kh:92,rev:28.9},2:{kh:96,rev:61.8},3:{kh:81,rev:44.4},4:{kh:11,rev:5.7}},
+  "2026-03": {0:{kh:1507,rev:765.1},1:{kh:146,rev:115.4},2:{kh:178,rev:102.1},3:{kh:39,rev:25.3}},
+  "2026-04": {0:{kh:796,rev:907.4},1:{kh:98,rev:47.2},2:{kh:21,rev:7.6}},
+  "2026-05": {0:{kh:595,rev:593.6},1:{kh:13,rev:7.4}}
+};
+
+const cohortMonths = Object.keys(cohortData)
+  .filter(m => m >= '2025-01' && m <= '2026-12')
+  .sort();
+const maxOffset = 24;
+
+// Color scale helpers
+function khPctColorClass(pct) {
+  if (pct > 50) return 'cc-b0';
+  if (pct > 20) return 'cc-b1';
+  if (pct > 10) return 'cc-b2';
+  if (pct > 5)  return 'cc-b3';
+  if (pct > 2)  return 'cc-b4';
+  return 'cc-b5';
+}
+
+function revColorClass(val, max) {
+  if (!val) return 'empty';
+  const r = val / max;
+  if (r > 0.5) return 'cc-g0';
+  if (r > 0.3) return 'cc-g1';
+  if (r > 0.15) return 'cc-g2';
+  if (r > 0.07) return 'cc-g3';
+  if (r > 0.03) return 'cc-g4';
+  return 'cc-g5';
+}
+
+function fmtMonth(m) {
+  const parts = m.split('-');
+  return 'T' + parseInt(parts[1]) + '/' + parts[0].slice(2);
+}
+
+function buildCohort(type) {
+  const isKh = type === 'kh';
+  const headEl = document.getElementById(isKh ? 'cohortKhHead' : 'cohortRevHead');
+  const bodyEl = document.getElementById(isKh ? 'cohortKhBody' : 'cohortRevBody');
+
+  // Build header
+  let hRow = `<tr><th style="text-align:left">Cohort</th><th>M+0</th>`;
+  for (let i = 1; i <= maxOffset; i++) hRow += `<th>M+${i}${!isKh ? '' : ''}</th>`;
+  hRow += '</tr>';
+  headEl.innerHTML = hRow;
+
+  let html = '';
+  let prevYear = null;
+
+  cohortMonths.forEach(month => {
+    const year = month.split('-')[0];
+
+    // Year separator row — KH dùng xanh dương, Revenue dùng xanh lá
+    if (prevYear && year !== prevYear) {
+      const sepClass = isKh ? 'cohort-year-sep' : 'cohort-year-sep-green';
+      html += `<tr class="${sepClass}"><td colspan="${maxOffset + 2}" class="year-sep-cell">${year}</td></tr>`;
+    }
+    prevYear = year;
+
+    const d = cohortData[month];
+    const m0kh  = d[0] ? d[0].kh  : 1;
+    const m0rev = d[0] ? d[0].rev : 1;
+
+    html += `<tr><td class="row-label">${fmtMonth(month)}</td>`;
+
+    for (let i = 0; i <= maxOffset; i++) {
+      const entry = d[i];
+      if (!entry) {
+        html += '<td><span class="cohort-cell empty">—</span></td>';
+        continue;
+      }
+
+      let disp, cls;
+
+      if (isKh) {
+        if (i === 0) {
+          disp = m0kh.toLocaleString('vi');
+          cls = 'cc-b0';
+        } else {
+          const pct = Math.round(entry.kh / m0kh * 100);
+          disp = `<span class="cc-rev-val">${entry.kh.toLocaleString('vi')}</span><span class="cc-rev-pct">${pct}%</span>`;
+          cls = khPctColorClass(pct);
+        }
+      } else {
+        // Revenue cohort
+        if (i === 0) {
+          disp = m0rev >= 100 ? Math.round(m0rev) : m0rev.toFixed(1);
+          cls = 'cc-g0';
+        } else {
+          const revVal = entry.rev >= 100 ? Math.round(entry.rev) : entry.rev.toFixed(1);
+          const pct = (entry.rev / m0rev * 100).toFixed(1);
+          disp = `<span class="cc-rev-val">${revVal} tr</span><span class="cc-rev-pct">${pct}%</span>`;
+          cls = revColorClass(entry.rev, m0rev);
+        }
+      }
+
+      html += `<td><span class="cohort-cell ${cls}">${disp}</span></td>`;
+    }
+
+    html += '</tr>';
+  });
+
+  bodyEl.innerHTML = html;
+}
+
+buildCohort('kh');
+buildCohort('rev');
+
+// ══════════════════════ ACTIVE NAV PILL ══════════════════════
+(function() {
+  const links = document.querySelectorAll('.sec-link');
+  const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href')));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = '#' + entry.target.id;
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === id));
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+  sections.forEach(s => s && obs.observe(s));
+  if (links.length) links[0].classList.add('active');
+})();
+
+// ══════════════════════ TABLE SORT — KD ══════════════════════
+function parseKD(txt) {
+  txt = txt.trim();
+  const m = txt.match(/^([\d.,]+)\s*tr$/);
+  if (m) return parseFloat(m[1].replace(/\./g, '').replace(',', '.')) * 1e6;
+  if (/^\d[\d.]*$/.test(txt)) return parseFloat(txt.replace(/\./g, ''));
+  const n = parseFloat(txt.replace(/[^\d.-]/g, ''));
+  return isNaN(n) ? txt.toLowerCase() : n;
+}
+
+let _kdSort = { col: 8, dir: 'desc' };
+window.sortKD = function(col, dir, el) {
+  const tbody = document.querySelector('#kdBody');
+  if (!tbody) return;
+  const rows = Array.from(tbody.querySelectorAll('tr:not(.total-row)'));
+  const totalRow = tbody.querySelector('.total-row');
+  if (dir === 'toggle') dir = (_kdSort.col === col && _kdSort.dir === 'asc') ? 'desc' : (col === 0 ? 'asc' : 'desc');
+  _kdSort = { col, dir };
+  rows.sort((a, b) => {
+    const av = parseKD(a.cells[col]?.innerText || ''), bv = parseKD(b.cells[col]?.innerText || '');
+    if (typeof av === 'string') return dir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+    return dir === 'asc' ? av - bv : bv - av;
+  });
+  rows.forEach((r, i) => {
+    const badge = r.cells[0].querySelector('.rank-badge');
+    if (badge) {
+      badge.className = 'rank-badge' + (i === 0 ? ' rank-1' : i === 1 ? ' rank-2' : i === 2 ? ' rank-3' : '');
+      badge.textContent = i + 1;
+    }
+    tbody.insertBefore(r, totalRow);
+  });
+  document.querySelectorAll('#kdTable thead th').forEach((th, i) => {
+    th.classList.remove('sort-asc', 'sort-desc');
+    if (i === col) th.classList.add(dir === 'asc' ? 'sort-asc' : 'sort-desc');
+  });
+  document.querySelectorAll('#s4 .sort-btn').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+};
+
+// ══════════════════════ TABLE SORT — VH ══════════════════════
+function parseVH(txt) {
+  txt = txt.trim();
+  if (txt === '—' || txt === '') return -1;
+  const hmatch = txt.match(/^(\d+)h(\d+)m$/);
+  if (hmatch) return parseInt(hmatch[1]) * 60 + parseInt(hmatch[2]);
+  const mmatch = txt.match(/^(\d+)m$/);
+  if (mmatch) return parseInt(mmatch[1]);
+  const pmatch = txt.match(/^([\d.]+)%$/);
+  if (pmatch) return parseFloat(pmatch[1]);
+  const n = parseFloat(txt.replace(/[^\d.-]/g, ''));
+  return isNaN(n) ? txt.toLowerCase() : n;
+}
+
+let _vhSort = { col: 2, dir: 'desc' };
+window.sortVH = function(col, dir, el) {
+  const tbody = document.querySelector('#vhBody');
+  if (!tbody) return;
+  const rows = Array.from(tbody.querySelectorAll('tr:not(.total-row)'));
+  const totalRow = tbody.querySelector('.total-row');
+  if (dir === 'toggle') dir = (_vhSort.col === col && _vhSort.dir === 'asc') ? 'desc' : (col === 0 ? 'asc' : 'desc');
+  _vhSort = { col, dir };
+  rows.sort((a, b) => {
+    const av = parseVH(a.cells[col]?.innerText || ''), bv = parseVH(b.cells[col]?.innerText || '');
+    if (typeof av === 'string') return dir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+    if (av === -1 && bv !== -1) return 1;
+    if (bv === -1 && av !== -1) return -1;
+    return dir === 'asc' ? av - bv : bv - av;
+  });
+  rows.forEach((r, i) => {
+    const badge = r.cells[0].querySelector('.rank-badge');
+    if (badge) {
+      badge.className = 'rank-badge' + (i === 0 ? ' rank-1' : i === 1 ? ' rank-2' : i === 2 ? ' rank-3' : '');
+      badge.textContent = i + 1;
+    }
+    tbody.insertBefore(r, totalRow);
+  });
+  document.querySelectorAll('#vhTable thead th').forEach((th, i) => {
+    th.classList.remove('sort-asc', 'sort-desc');
+    if (i === col) th.classList.add(dir === 'asc' ? 'sort-asc' : 'sort-desc');
+  });
+  document.querySelectorAll('#s5 .sort-btn').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+};
+</script>
+</body>
+</html>
